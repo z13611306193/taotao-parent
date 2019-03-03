@@ -1,5 +1,6 @@
 package com.taotao.controller;
 
+import com.taotao.common.pojo.EUDateGridResult;
 import com.taotao.pojo.TbItem;
 import com.taotao.service.ItemService;
 import org.springframework.stereotype.Controller;
@@ -29,6 +30,13 @@ public class ItemController {
     public TbItem getItemById(@PathVariable Long itemId){
         TbItem item = itemServiceImpl.getItemById(itemId);
         return item;
+    }
+
+    @RequestMapping(value = "/item/list",produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public EUDateGridResult getItemList(Integer page,Integer rows){
+        EUDateGridResult itemList = itemServiceImpl.getItemList(page, rows);
+        return itemList;
     }
 
 }
