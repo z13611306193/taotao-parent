@@ -1,11 +1,13 @@
 package com.taotao.controller;
 
 import com.taotao.common.pojo.EUDateGridResult;
+import com.taotao.common.pojo.TaotaoResult;
 import com.taotao.pojo.TbItem;
 import com.taotao.service.ItemService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -39,4 +41,10 @@ public class ItemController {
         return itemList;
     }
 
+    @RequestMapping(value = "/item/save",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public TaotaoResult createItem(TbItem item){
+        TaotaoResult result = itemServiceImpl.createItem(item);
+        return result;
+    }
 }

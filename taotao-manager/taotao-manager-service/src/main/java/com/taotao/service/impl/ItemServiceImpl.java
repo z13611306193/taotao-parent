@@ -3,6 +3,8 @@ package com.taotao.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.taotao.common.pojo.EUDateGridResult;
+import com.taotao.common.pojo.TaotaoResult;
+import com.taotao.common.utils.IDUtils;
 import com.taotao.mapper.TbItemMapper;
 import com.taotao.pojo.TbItem;
 import com.taotao.pojo.TbItemExample;
@@ -10,6 +12,7 @@ import com.taotao.service.ItemService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -63,5 +66,21 @@ public class ItemServiceImpl implements ItemService {
         result.setTotal(pageInfo.getTotal());
         //返回数据
         return result;
+    }
+
+    @Override
+    public TaotaoResult createItem(TbItem item) {
+        //补全item
+        //生成商品ID
+        long itemId = IDUtils.genItemId();
+        item.setId(itemId);
+        //商品状态 1-正常 2-下架 3-删除
+        item.setStatus((byte) 1);
+        //创建时间/更新时间
+        item.setCreated(new Date());
+        item.setUpdated(new Date());
+        //插入到数据库
+        tbItemMapper.insert(item);
+        return TaotaoResult.ok() ;
     }
 }
