@@ -5,9 +5,13 @@ import com.github.pagehelper.PageInfo;
 import com.taotao.common.pojo.EUDateGridResult;
 import com.taotao.common.pojo.TaotaoResult;
 import com.taotao.common.utils.IDUtils;
+import com.taotao.mapper.TbItemDescMapper;
 import com.taotao.mapper.TbItemMapper;
+import com.taotao.mapper.TbItemParamItemMapper;
 import com.taotao.pojo.TbItem;
+import com.taotao.pojo.TbItemDesc;
 import com.taotao.pojo.TbItemExample;
+import com.taotao.pojo.TbItemParamItem;
 import com.taotao.service.ItemService;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +33,12 @@ public class ItemServiceImpl implements ItemService {
 
     @Resource
     private TbItemMapper tbItemMapper;
+
+    @Resource
+    private TbItemDescMapper tbItemDescMapper;
+
+    @Resource
+    private TbItemParamItemMapper tbItemParamItemMapper;
 
     @Override
     public TbItem getItemById(Long id) {
@@ -68,8 +78,15 @@ public class ItemServiceImpl implements ItemService {
         return result;
     }
 
+    /**
+     * 添加商品
+     * @param item
+     * @param desc
+     * @return
+     * @throws Exception
+     */
     @Override
-    public TaotaoResult createItem(TbItem item) {
+    public TaotaoResult createItem(TbItem item,String desc,String itemParam) throws Exception{
         //补全item
         //生成商品ID
         long itemId = IDUtils.genItemId();
@@ -81,6 +98,43 @@ public class ItemServiceImpl implements ItemService {
         item.setUpdated(new Date());
         //插入到数据库
         tbItemMapper.insert(item);
+        TaotaoResult result = insertItemDesc(itemId, desc);
+        if(result.getStatus() != 200)
+            throw new Exception();
+        result = insertItemParamItem(itemId,itemParam);
+        if(result.getStatus() != 200)
+            throw new Exception();
         return TaotaoResult.ok() ;
+    }
+
+    /**
+     * 插入商品描述
+     * @param desc
+     * @return
+     */
+    private TaotaoResult insertItemDesc(Long itemId, String desc){
+        TbItemDesc itemDesc = new TbItemDesc();
+        itemDesc.setItemId(itemId);
+        itemDesc.setItemDesc(desc);
+        itemDesc.setCreated(new Date());
+        itemDesc.setUpdated(new Date());
+        tbItemDescMapper.insert(itemDesc);
+        return TaotaoResult.ok();
+    }
+
+    /**
+     * 插入商品规格
+     * @param itemId
+     * @param itemParam
+     * @return
+     */
+    private TaotaoResult insertItemParamItem(Long itemId,String itemParam){
+        TbItemParamItem tbItemParamItem = new TbItemParamItem();
+        tbItemParamItem.setItemId(itemId);
+        tbItemParamItem.setParamData(itemParam);
+        tbItemParamItem.setCreated(new Date());
+        tbItemParamItem.setUpdated(new Date());
+        tbItemParamItemMapper.insert(tbItemParamItem);
+        return TaotaoResult.ok();
     }
 }

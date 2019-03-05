@@ -43,8 +43,13 @@ public class ItemController {
 
     @RequestMapping(value = "/item/save",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
     @ResponseBody
-    public TaotaoResult createItem(TbItem item){
-        TaotaoResult result = itemServiceImpl.createItem(item);
+    public TaotaoResult createItem(TbItem item,String desc,String itemParams){
+        TaotaoResult result = null;
+        try {
+            result = itemServiceImpl.createItem(item,desc,itemParams);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return result;
     }
 }

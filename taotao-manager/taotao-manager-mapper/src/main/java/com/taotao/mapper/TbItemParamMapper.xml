@@ -248,4 +248,8 @@
       updated = #{updated,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="selectItemParamList" resultType="com.taotao.pojo.TbItemParam">
+    select id,item_cat_id as itemCatId,param_data as paramData,created,updated from tb_item_param
+  </select>
 </mapper>
