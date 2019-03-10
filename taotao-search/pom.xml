@@ -9,10 +9,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>taotao-rest</artifactId>
+    <artifactId>taotao-search</artifactId>
     <packaging>war</packaging>
 
-    <!--依赖的jar-->
     <dependencies>
         <dependency>
             <groupId>com.taotao</groupId>
@@ -70,10 +69,28 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <!--配合端口和路径-->
                 <configuration>
-                    <port>8091</port>
+                    <port>8093</port>
                     <path>/</path>
                 </configuration>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
     </build>
 </project>
