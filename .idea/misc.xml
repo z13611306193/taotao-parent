@@ -6,6 +6,7 @@
     <file type="web" url="file://$PROJECT_DIR$/taotao-portal" />
     <file type="web" url="file://$PROJECT_DIR$/taotao-rest" />
     <file type="web" url="file://$PROJECT_DIR$/taotao-search" />
+    <file type="web" url="file://$PROJECT_DIR$/taotao-sso" />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">

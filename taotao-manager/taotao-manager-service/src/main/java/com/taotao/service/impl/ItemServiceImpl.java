@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.taotao.common.pojo.EUDateGridResult;
 import com.taotao.common.pojo.TaotaoResult;
+import com.taotao.common.utils.HttpClientUtil;
 import com.taotao.common.utils.IDUtils;
 import com.taotao.mapper.TbItemDescMapper;
 import com.taotao.mapper.TbItemMapper;
@@ -13,6 +14,7 @@ import com.taotao.pojo.TbItemDesc;
 import com.taotao.pojo.TbItemExample;
 import com.taotao.pojo.TbItemParamItem;
 import com.taotao.service.ItemService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -39,6 +41,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Resource
     private TbItemParamItemMapper tbItemParamItemMapper;
+
+    @Value("${SEARCH_IMPORTALL_URL}")
+    private String SEARCH_IMPORTALL_URL;
 
     @Override
     public TbItem getItemById(Long id) {
@@ -104,6 +109,16 @@ public class ItemServiceImpl implements ItemService {
         result = insertItemParamItem(itemId,itemParam);
         if(result.getStatus() != 200)
             throw new Exception();
+
+        try {
+            //同步到索引库
+            HttpClientUtil.doGet(SEARCH_IMPORTALL_URL);
+            System.out.println("同步solr数据");
+        } catch (Exception e) {
+            e.printStackTrace();
+            //发送邮件或者短信通知管理员,或者技术
+        }
+
         return TaotaoResult.ok() ;
     }
 
