@@ -11,6 +11,7 @@
         <module name="taotaomanagerpojo" />
         <module name="taotaomanagerservice" />
         <module name="taotaomanagerweb" />
+        <module name="taotaoorder" />
         <module name="taotaoportal" />
         <module name="taotaorest" />
         <module name="taotaosearch" />

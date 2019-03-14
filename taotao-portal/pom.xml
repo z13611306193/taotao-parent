@@ -13,6 +13,12 @@
     <packaging>war</packaging>
 
     <dependencies>
+        <!-- Jackson Json处理工具包 -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.taotao</groupId>
             <artifactId>taotao-common</artifactId>
